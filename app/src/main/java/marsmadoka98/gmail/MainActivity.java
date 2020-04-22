@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.View;
 import android.widget.Button;
@@ -12,20 +13,30 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
 
 public class MainActivity extends AppCompatActivity {
     private ImageButton imgbtn;
-    private EditText Edtext;
-    private Button btn;
+    private EditText Edtitle;
+    private EditText Eddesc;
+    private Button btnPost;
+    private Uri mImgUri = null;
     private static final int GALLERY_REQUEST=1;
+    private StorageReference mStorage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        mStorage = FirebaseStorage.getInstance().getReference();
         imgbtn=findViewById(R.id.imageButton);
-        Edtext=findViewById(R.id.EditTxt1);
-        btn=findViewById(R.id.buttonB);
+        Edtitle=findViewById(R.id.EditTxt1);
+        Eddesc=findViewById(R.id.EditTxt2);
+
+        btnPost=findViewById(R.id.buttonB);
 
 
         imgbtn.setOnClickListener(new View.OnClickListener() {
@@ -36,6 +47,13 @@ public class MainActivity extends AppCompatActivity {
                 startActivityForResult(galleryIntent,GALLERY_REQUEST);
             }
         });
+        btnPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startPosting();
+            }
+        });
+
 
     }
 
@@ -43,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode,int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
-            Uri imageUri = data.getData();
-            imgbtn.setImageURI(imageUri);
+            mImgUri = data.getData();
+            imgbtn.setImageURI(mImgUri);
 
         }
 
@@ -54,5 +72,27 @@ public class MainActivity extends AppCompatActivity {
 
         getMenuInflater().inflate(R.menu.main_menu,menu);
         return super.onCreateOptionsMenu(menu);
+    }
+
+
+    public void startPosting(){
+
+        String titlevalue=Edtitle.getText().toString();
+        String descvalue=Eddesc.getText().toString();
+
+        if(!TextUtils.isEmpty(titlevalue) && !TextUtils.isEmpty(descvalue) && mImgUri != null){
+
+            StorageReference filepath = mStorage.child("Blog_Images").child(mImgUri.getLastPathSegment());
+        filepath.putFile(mImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
+                Uri downloadUrl=taskSnapshot.getDownloadUrl();
+            }
+        });
+
+        }
+
+
     }
 }
