@@ -2,6 +2,7 @@ package marsmadoka98.gmail;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -11,7 +12,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.storage.FirebaseStorage;
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
     private Uri mImgUri = null;
     private static final int GALLERY_REQUEST=1;
     private StorageReference mStorage;
+    private ProgressDialog mProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,9 +39,9 @@ public class MainActivity extends AppCompatActivity {
         imgbtn=findViewById(R.id.imageButton);
         Edtitle=findViewById(R.id.EditTxt1);
         Eddesc=findViewById(R.id.EditTxt2);
-
         btnPost=findViewById(R.id.buttonB);
 
+        mProgress=new ProgressDialog(this);
 
         imgbtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,18 +80,28 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void startPosting(){
-
-        String titlevalue=Edtitle.getText().toString();
-        String descvalue=Eddesc.getText().toString();
+    mProgress.setMessage("posting to firebase....");
+    mProgress.show();
+        String titlevalue=Edtitle.getText().toString().trim();
+        String descvalue=Eddesc.getText().toString().trim();
 
         if(!TextUtils.isEmpty(titlevalue) && !TextUtils.isEmpty(descvalue) && mImgUri != null){
 
-            StorageReference filepath = mStorage.child("Blog_Images").child(mImgUri.getLastPathSegment());
+            final StorageReference filepath = mStorage.child("Blog_Images").child(mImgUri.getLastPathSegment());
         filepath.putFile(mImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
-            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+            public void onSuccess(final UploadTask.TaskSnapshot taskSnapshot) {
+              filepath.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                  @Override
+                  public void onSuccess(Uri uri) {
+                      final Uri downloadUrl = uri;
+                      mProgress.dismiss();
+                      Toast.makeText(MainActivity.this, "file uploaded successful!", Toast.LENGTH_SHORT).show();
 
-                Uri downloadUrl=taskSnapshot.getDownloadUrl();
+                  }
+              });
+
+
             }
         });
 
