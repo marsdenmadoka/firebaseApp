@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,13 +78,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
-    @Override
-   public  boolean onCreateOptionsMenu(Menu menu){
-
-        getMenuInflater().inflate(R.menu.main_menu,menu);
-        return super.onCreateOptionsMenu(menu);
-    }
-
 
     public void startPosting(){ //posting method when btnOnClick
     mProgress.setMessage("posting to firebase....");
@@ -109,16 +103,28 @@ public class MainActivity extends AppCompatActivity {
 
                       mProgress.dismiss();
                       Toast.makeText(MainActivity.this, "file uploaded successful!", Toast.LENGTH_SHORT).show();
-
+                      //return back to activity2
+                      startActivity(new Intent(MainActivity.this,Main2Activity.class));
                   }
               });
-
-
             }
         });
-
         }
-
-
     }
+
+    @Override
+    public  boolean onCreateOptionsMenu(Menu menu){
+
+        getMenuInflater().inflate(R.menu.main_menu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public  boolean onOptionsItemSelected(MenuItem item){
+        if(item.getItemId()==R.id.action_add){
+            startActivity(new Intent(MainActivity.this,Main2Activity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }
+
 }
