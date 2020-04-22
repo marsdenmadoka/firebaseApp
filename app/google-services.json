@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "62526767553",
+    "firebase_url": "https://frebaseprojet.firebaseio.com",
+    "project_id": "frebaseprojet",
+    "storage_bucket": "frebaseprojet.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:62526767553:android:b75cc1872b252150ceaf40",
+        "android_client_info": {
+          "package_name": "marsmadoka98.gmail"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "62526767553-8qjuuen7g0os6popfova9h3uqhu3u1af.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDptKI-0eax_gqpsH4LBdVmuPhXVmqgU1g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "62526767553-8qjuuen7g0os6popfova9h3uqhu3u1af.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
