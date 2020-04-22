@@ -5,72 +5,69 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class Main2Activity extends AppCompatActivity {
 private RecyclerView recyclerview;
 private DatabaseReference mDatabase;
+ProgressDialog progressDialog;
+List<Details> list=new ArrayList<>();
+RecyclerView.Adapter adapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main2);
-        mDatabase = FirebaseDatabase.getInstance().getReference().child("profile");
         recyclerview=findViewById(R.id.myrecyclerview);
         recyclerview.setHasFixedSize(true);
-        recyclerview.setLayoutManager(new LinearLayoutManager(this));
-    }
+        recyclerview.setLayoutManager(new LinearLayoutManager(Main2Activity.this));
 
-    @Override
-    protected void onStart(){
-        super.onStart();
+        progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
 
-        FirebaseRecyclerAdapter<RecyclerAdapter,ViewHolder> firebaseRecyclerAdapter = new FirebaseRecyclerAdapter<RecyclerAdapter, ViewHolder>(
-                RecyclerAdapter.class,
-                R.layout.activity2_recycler_holder,
-                ViewHolder.class,
-                mDatabase
-
-        ) {
+        mDatabase = FirebaseDatabase.getInstance().getReference().child("profile");
+        mDatabase.addValueEventListener(new ValueEventListener() {
             @Override
-            protected void onBindViewHolder(@NonNull ViewHolder holder, int position, @NonNull RecyclerAdapter model) {
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                for(DataSnapshot dataSnapshot : snapshot.getChildren()){
+                    Details details = dataSnapshot.getValue(Details.class);
+                    list.add(details);
+                }
+
+                adapter=new RecyclerAdapter(Main2Activity.this,list);
+                recyclerview.setAdapter(adapter);
+                progressDialog.dismiss();
+                Toast.makeText(Main2Activity.this, "data loaded successful!", Toast.LENGTH_SHORT).show();
             }
 
-            @NonNull
             @Override
-            public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-                return null;
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+progressDialog.dismiss();
             }
-        };
+        });
+
+
+
+
 
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder{
-        View mView;
-
-        public ViewHolder(View itemView){
-            super(itemView);
-            itemView=mView;
-
-        }
-        public void setTitle(String title){
-
-            TextView mytitle =mView.findViewById(R.id.text_view1);
-            mytitle.setText(title);
-        }
-        public void setDesc(String description){
-            TextView mydesc=mView.findViewById(R.id.text_view2);
-            mydesc.setText(description);
-
-        }
-
-    }
 
 }
