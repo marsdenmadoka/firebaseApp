@@ -79,12 +79,12 @@ public class MainActivity extends AppCompatActivity {
 
     public void startPosting(){ //posting method when btnOnClick
     mProgress.setMessage("posting to firebase....");
-    mProgress.show();
+
         final String titlevalue=Edtitle.getText().toString().trim();
         final String descvalue=Eddesc.getText().toString().trim();
 
         if(!TextUtils.isEmpty(titlevalue) && !TextUtils.isEmpty(descvalue) && mImgUri != null){
-
+            mProgress.show();
             final StorageReference filepath = mStorage.child("Blog_Images").child(mImgUri.getLastPathSegment()); //store the images under in Blog_Images folder in STORAGE
         filepath.putFile(mImgUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
@@ -107,6 +107,9 @@ public class MainActivity extends AppCompatActivity {
               });
             }
         });
+        }else{
+
+            Toast.makeText(MainActivity.this," please insert values to upload",Toast.LENGTH_SHORT).show();
         }
     }
 
