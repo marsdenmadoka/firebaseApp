@@ -1,5 +1,6 @@
 package marsmadoka98.gmail;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
@@ -16,6 +17,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -33,14 +35,29 @@ public class MainActivity extends AppCompatActivity {
     private StorageReference mStorage;
     private ProgressDialog mProgress;
     private DatabaseReference mDatabase;
+    private FirebaseAuth mAuth;
+    private FirebaseAuth.AuthStateListener mAuthListerner;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+         //checkin if the user is SignedIn
+        mAuth=FirebaseAuth.getInstance();
+        mAuthListerner=new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser()==null);//this mean if our user is not logged in
+
+                Intent loginIntent = new Intent(MainActivity.this,RegisterActivity.class);
+              loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(loginIntent);
+            }
+        };
+
+    mAuth.addAuthStateListener(mAuthListerner);
         mStorage = FirebaseStorage.getInstance().getReference();//Storage reference
         mDatabase= FirebaseDatabase.getInstance().getReference().child("profile"); //databaseReference
-
-
+       mDatabase.keepSynced(true);
         imgbtn=findViewById(R.id.imageButton);
         Edtitle=findViewById(R.id.EditTxt1);
         Eddesc=findViewById(R.id.EditTxt2);
