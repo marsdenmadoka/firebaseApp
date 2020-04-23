@@ -142,7 +142,14 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId()==R.id.action_add){
             startActivity(new Intent(MainActivity.this,Main2Activity.class));
         }
+        if(item.getItemId()==R.id.log_out){
+            logout();
+
+        }
         return super.onOptionsItemSelected(item);
     }
+public void logout(){
+        mAuth.signOut();
 
+}
 }

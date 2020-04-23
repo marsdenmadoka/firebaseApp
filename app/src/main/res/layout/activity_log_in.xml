@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".LogInActivity">
+    <TextView
+        android:textColor="#000"
+        android:layout_marginHorizontal="50dp"
+        android:textStyle="bold"
+        android:textSize="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Already have an account? LogIn here!!"
+
+        />
+
+    <EditText
+        android:id="@+id/loginEmail"
+        android:layout_marginTop="100dp"
+        android:hint="your Email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textEmailAddress" />
+    <EditText
+        android:id="@+id/loginPassword"
+        android:hint="password"
+        android:layout_marginTop="20dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:ems="10"
+        android:inputType="textPassword" />
+
+    <Button
+        android:id="@+id/btnLogIn"
+        android:layout_width="80dp"
+        android:layout_marginStart="150dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="LOGIN"
+        android:textColor="#f00" />
+</LinearLayout>
