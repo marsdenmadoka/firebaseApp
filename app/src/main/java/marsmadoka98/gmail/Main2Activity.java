@@ -21,7 +21,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
-
+//Activity to fetching data from firebase with use of recycler view and adapter
 public class Main2Activity extends AppCompatActivity {
 private RecyclerView recyclerview;
 private DatabaseReference mDatabase;
