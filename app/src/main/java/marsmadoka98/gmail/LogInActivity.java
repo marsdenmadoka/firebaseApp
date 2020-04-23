@@ -80,7 +80,7 @@ public class LogInActivity extends AppCompatActivity {
             startActivity(mainIntent);
 
         }else{
-            Toast.makeText(LogInActivity.this,"please setup an account,",Toast.LENGTH_LONG);
+            Toast.makeText(LogInActivity.this,"please setup an account,",Toast.LENGTH_LONG).show();
         }
 
             }

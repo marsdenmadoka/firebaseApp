@@ -53,4 +53,12 @@
         android:layout_marginTop="20dp"
         android:text="SIGNUP"
         android:textColor="#f00" />
+    <Button
+        android:id="@+id/btnLogiN"
+        android:layout_width="150dp"
+        android:layout_marginStart="130dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90dp"
+        android:text=" already have an account login! "
+        android:textColor="#f00" />
 </LinearLayout>

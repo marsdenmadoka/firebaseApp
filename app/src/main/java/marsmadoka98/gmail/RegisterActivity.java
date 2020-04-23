@@ -10,6 +10,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,6 +26,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText mEmailfield;
     private EditText mPasswordfield;
     private Button mSignButton;
+    private Button SignIn;
     private ProgressDialog mProgress;
      private FirebaseAuth mAuth;
      private DatabaseReference mDatabase;
@@ -33,6 +35,7 @@ public class RegisterActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
     mAuth=FirebaseAuth.getInstance();
+
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");//create child users in the database to store users
 
         mNamefield=findViewById(R.id.editUsername);
@@ -49,6 +52,16 @@ public class RegisterActivity extends AppCompatActivity {
 
             }
         });
+
+        SignIn=findViewById(R.id.btnLogiN);
+        SignIn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent=new Intent(RegisterActivity.this,LogInActivity.class);
+                startActivity(intent);
+            }
+        });
+
     }
 
     public void StartRegister(){
