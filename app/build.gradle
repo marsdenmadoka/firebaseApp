@@ -33,6 +33,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:19.3.0'
     implementation 'com.firebaseui:firebase-ui-database:6.2.1'
     implementation 'com.google.firebase:firebase-functions:19.0.2'
+       api 'com.theartofdev.edmodo:android-image-cropper:2.8.+'
     implementation 'com.google.firebase:firebase-storage:19.1.1'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'androidx.cardview:cardview:1.0.0'

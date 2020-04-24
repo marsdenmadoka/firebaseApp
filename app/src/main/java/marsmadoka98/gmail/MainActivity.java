@@ -23,6 +23,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
+import com.theartofdev.edmodo.cropper.CropImage;
+import com.theartofdev.edmodo.cropper.CropImageView;
 
 //activity to post data to firebase
 public class MainActivity extends AppCompatActivity {
@@ -82,14 +84,25 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
+//getting image selected and cropping it
     @Override
     protected void onActivityResult(int requestCode,int resultCode, Intent data){ //getting the image selected
         super.onActivityResult(requestCode,resultCode,data);
         if(requestCode == GALLERY_REQUEST && resultCode == RESULT_OK){
             mImgUri = data.getData();
-            imgbtn.setImageURI(mImgUri);
-
+            CropImage.activity(mImgUri)
+                    .setGuidelines(CropImageView.Guidelines.ON)
+                    .setAspectRatio(1,1)
+                    .start(this);
+        }
+        if (requestCode == CropImage.CROP_IMAGE_ACTIVITY_REQUEST_CODE) {
+            CropImage.ActivityResult result = CropImage.getActivityResult(data);
+            if (resultCode == RESULT_OK) {
+                Uri resultUri = result.getUri();
+                imgbtn.setImageURI(resultUri);
+            } else if (resultCode == CropImage.CROP_IMAGE_ACTIVITY_RESULT_ERROR_CODE) {
+                Exception error = result.getError();
+            }
         }
 
     }
