@@ -57,11 +57,11 @@ public class LogInActivity extends AppCompatActivity {
         String email=mEmail.getText().toString().trim();
         String password=mPassword.getText().toString().trim();
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
-            mProgress.show();
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
+                        mProgress.show();
                         CheckUserExist();
 
                     }else{
@@ -83,6 +83,8 @@ public class LogInActivity extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         if(dataSnapshot.hasChild(user_id)){
+            mProgress.dismiss();
+            Toast.makeText(LogInActivity.this,"you have succesfullY signed in",Toast.LENGTH_LONG).show();
             Intent mainIntent=new Intent(LogInActivity.this,MainActivity.class);
             mainIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(mainIntent);

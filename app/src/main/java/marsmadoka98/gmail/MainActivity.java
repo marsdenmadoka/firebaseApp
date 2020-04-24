@@ -49,7 +49,7 @@ public class MainActivity extends AppCompatActivity {
                 if (firebaseAuth.getCurrentUser()==null);//this mean if our user is not logged in
 
                 Intent loginIntent = new Intent(MainActivity.this,RegisterActivity.class);
-              loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+               loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(loginIntent);
             }
         };

@@ -68,15 +68,15 @@ public class RegisterActivity extends AppCompatActivity {
         mProgress.setMessage("creating user....");
      final String name=mNamefield.getText().toString().trim();
    final  String email= mEmailfield.getText().toString().trim();
-        String password=mPasswordfield.getText().toString().trim();
-if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
-  mProgress.show();
+       final String password=mPasswordfield.getText().toString().trim();
+if((!TextUtils.isEmpty(name) && name.length() > 3) && (!TextUtils.isEmpty(email)  && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches())&& (!TextUtils.isEmpty(password) && password.length() > 5)){
+    mProgress.show();
     mAuth.createUserWithEmailAndPassword(email,password)
         .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    String user_id=mAuth.getCurrentUser().getUid();
+                    String user_id=mAuth.getCurrentUser().getUid();//  final String user_id = mAuth.getCurrentUser().getUid();
                      DatabaseReference current_user=mDatabase.child(user_id);//create child userid
                     current_user.child("name").setValue(name);
                     current_user.child("image").setValue("default");
@@ -87,16 +87,21 @@ if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(p
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }else{
-                    //if failed
                     mProgress.dismiss();
-                    Toast.makeText(RegisterActivity.this,"Register failed!! Connect to the internet and try again",Toast.LENGTH_LONG).show();
+                    Toast.makeText(RegisterActivity.this,"Register failed!! Connect to the internet and try again, password must be more than four characters",Toast.LENGTH_LONG).show();
                 }
 
             }
         });
 
+}else if(name.length() <= 3){
+    mNamefield.setError("at least 4 characters");
+}else if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+    mEmailfield.setError("enter a valid email address");
+}else if(password.length() <= 5){
+    mPasswordfield.setError("between 6 and 10 characters");
 }else{
-    Toast.makeText(RegisterActivity.this, "please fill all the fields", Toast.LENGTH_SHORT).show();
+    Toast.makeText(RegisterActivity.this, "please fill all the fields ,cannot be empty!!", Toast.LENGTH_SHORT).show();
 }
 
     }
