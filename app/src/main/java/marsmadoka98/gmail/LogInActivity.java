@@ -29,7 +29,7 @@ public class LogInActivity extends AppCompatActivity {
     private Button BtnLogin;
     private FirebaseAuth mAuth;
     private ProgressDialog mProgress;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabaseUers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,8 +37,8 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
         mAuth=FirebaseAuth.getInstance();
 
-        mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");//this is the child we created when signup to store signup crediatials we MUST use the child
-
+        mDatabaseUers= FirebaseDatabase.getInstance().getReference().child("Users");//this is the child we created when signup to store signup crediatials we MUST use the child
+       mDatabaseUers.keepSynced(true);//storing the db offline
         mProgress=new ProgressDialog(this);
         mEmail= findViewById(R.id.loginEmail);
         mPassword=findViewById(R.id.loginPassword);
@@ -81,7 +81,7 @@ public class LogInActivity extends AppCompatActivity {
 
     public void CheckUserExist(){  //check if the user exsist in the database
         final String user_id = mAuth.getCurrentUser().getUid();
-        mDatabase.addValueEventListener(new ValueEventListener() {
+        mDatabaseUers.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
         if(dataSnapshot.hasChild(user_id)){
