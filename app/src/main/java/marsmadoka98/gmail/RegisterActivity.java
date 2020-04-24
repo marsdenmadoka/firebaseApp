@@ -34,9 +34,9 @@ public class RegisterActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-    mAuth=FirebaseAuth.getInstance();
+     mAuth=FirebaseAuth.getInstance();
 
-        mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");//create child users in the database to store users
+        mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");
 
         mNamefield=findViewById(R.id.editUsername);
         mEmailfield=findViewById(R.id.editEmail);

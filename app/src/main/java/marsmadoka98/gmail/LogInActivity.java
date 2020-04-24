@@ -36,7 +36,9 @@ public class LogInActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_log_in);
         mAuth=FirebaseAuth.getInstance();
+
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");//this is the child we created when signup to store signup crediatials we MUST use the child
+
         mProgress=new ProgressDialog(this);
         mEmail= findViewById(R.id.loginEmail);
         mPassword=findViewById(R.id.loginPassword);
@@ -57,11 +59,11 @@ public class LogInActivity extends AppCompatActivity {
         String email=mEmail.getText().toString().trim();
         String password=mPassword.getText().toString().trim();
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
+            mProgress.show();
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
                     if(task.isSuccessful()){
-                        mProgress.show();
                         CheckUserExist();
 
                     }else{
@@ -77,7 +79,7 @@ public class LogInActivity extends AppCompatActivity {
         }
     }
 
-    public void CheckUserExist(){
+    public void CheckUserExist(){  //check if the user exsist in the database
         final String user_id = mAuth.getCurrentUser().getUid();
         mDatabase.addValueEventListener(new ValueEventListener() {
             @Override

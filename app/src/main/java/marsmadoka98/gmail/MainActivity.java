@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
         mAuthListerner=new FirebaseAuth.AuthStateListener() {
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                if (firebaseAuth.getCurrentUser()==null);//this mean if our user is not logged in
-
-                Intent loginIntent = new Intent(MainActivity.this,RegisterActivity.class);
+                if (firebaseAuth.getCurrentUser()==null){//this mean if our user is not logged in
+                    Intent loginIntent = new Intent(MainActivity.this,RegisterActivity.class);
                loginIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 startActivity(loginIntent);
             }
+                }
         };
 
     mAuth.addAuthStateListener(mAuthListerner);
