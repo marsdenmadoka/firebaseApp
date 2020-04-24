@@ -90,9 +90,6 @@ if(!TextUtils.isEmpty(name) && !TextUtils.isEmpty(email) && !TextUtils.isEmpty(p
                     //if failed
                     mProgress.dismiss();
                     Toast.makeText(RegisterActivity.this,"Register failed!! Connect to the internet and try again",Toast.LENGTH_LONG).show();
-                    mNamefield.setText(" ");
-                    mEmailfield.setText(" ");
-                    mPasswordfield.setText(" ");
                 }
 
             }

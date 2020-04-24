@@ -3,6 +3,7 @@ package marsmadoka98.gmail;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,6 +28,7 @@ public class LogInActivity extends AppCompatActivity {
     private  EditText mPassword;
     private Button BtnLogin;
     private FirebaseAuth mAuth;
+    private ProgressDialog mProgress;
     private DatabaseReference mDatabase;
 
     @Override
@@ -35,9 +37,10 @@ public class LogInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_log_in);
         mAuth=FirebaseAuth.getInstance();
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");//this is the child we created when signup to store signup crediatials we MUST use the child
-
+        mProgress=new ProgressDialog(this);
         mEmail= findViewById(R.id.loginEmail);
         mPassword=findViewById(R.id.loginPassword);
+
         BtnLogin=findViewById(R.id.btnLogIn);
 
         BtnLogin.setOnClickListener(new View.OnClickListener() {
@@ -48,11 +51,13 @@ public class LogInActivity extends AppCompatActivity {
         });
 
     }
+
     public void CheckLogin(){
+        mProgress.setMessage("signin user....");
         String email=mEmail.getText().toString().trim();
         String password=mPassword.getText().toString().trim();
-
         if(!TextUtils.isEmpty(email) && !TextUtils.isEmpty(password)){
+            mProgress.show();
             mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -60,12 +65,15 @@ public class LogInActivity extends AppCompatActivity {
                         CheckUserExist();
 
                     }else{
-
-                        Toast.makeText(LogInActivity.this,"Invalid Email/password try again!!",Toast.LENGTH_LONG).show();
+                            mProgress.dismiss();
+                        Toast.makeText(LogInActivity.this,"user does not exsist enter valid Email/password or check your connection",Toast.LENGTH_LONG).show();
                     }
 
                 }
             });
+        }else{
+
+            Toast.makeText(LogInActivity.this,"name and password cannot be blank!",Toast.LENGTH_LONG).show();
         }
     }
 
