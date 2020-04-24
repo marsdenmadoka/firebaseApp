@@ -10,7 +10,7 @@
     android:textColor="#000"
     android:layout_marginHorizontal="50dp"
     android:textStyle="bold"
-    android:textSize="50dp"
+    android:textSize="30dp"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:text="please sign up here!!"
@@ -19,7 +19,7 @@
 
     <EditText
         android:id="@+id/editUsername"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="20dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:hint="username"
@@ -61,4 +61,14 @@
         android:layout_marginTop="30dp"
         android:text=" already have an account login! "
         android:textColor="#f00" />
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/googlebtn"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="120dp"
+        >
+    </com.google.android.gms.common.SignInButton>
+
 </LinearLayout>
