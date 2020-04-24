@@ -5,7 +5,16 @@
     ".read": true,
     ".write": true
   }
+} 
+or
+{
+  "rules": {
+    ".read": "auth !=null",
+    ".write": "auth !=null"
+  }
 }
+
+
 
 
 ##define your storage rules as follows##  
