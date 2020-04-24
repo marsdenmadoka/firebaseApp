@@ -37,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
      mAuth=FirebaseAuth.getInstance();
 
         mDatabase= FirebaseDatabase.getInstance().getReference().child("Users");
+        mDatabase.keepSynced(true);
 
         mNamefield=findViewById(R.id.editUsername);
         mEmailfield=findViewById(R.id.editEmail);

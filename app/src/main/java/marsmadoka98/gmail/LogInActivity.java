@@ -38,7 +38,7 @@ public class LogInActivity extends AppCompatActivity {
         mAuth=FirebaseAuth.getInstance();
 
         mDatabaseUers= FirebaseDatabase.getInstance().getReference().child("Users");//this is the child we created when signup to store signup crediatials we MUST use the child
-       mDatabaseUers.keepSynced(true);//storing the db offline
+        mDatabaseUers.keepSynced(true);//storing the db offline
         mProgress=new ProgressDialog(this);
         mEmail= findViewById(R.id.loginEmail);
         mPassword=findViewById(R.id.loginPassword);
