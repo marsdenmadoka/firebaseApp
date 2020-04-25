@@ -16,7 +16,7 @@
         android:background="#00ffff"
         android:scaleType="centerCrop"
         android:adjustViewBounds="true"
-        app:srcCompat="@drawable/ic_launcher_background" />
+        app:srcCompat="@drawable/imagephoto" />
 
     <EditText
         android:id="@+id/EditTxt1"
